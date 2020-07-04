@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BreakoutGameObjects\Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\images\ball.png" />
     <None Include="wwwroot\images\brick.png" />
   </ItemGroup>
