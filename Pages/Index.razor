@@ -1,0 +1,33 @@
+﻿@page "/"
+@using Blazor.Extensions;
+@using Blazor.Extensions.Canvas
+@using Blazor.Extensions.Canvas.Canvas2D;
+@using BreakOutGame.BreakoutGameObjects;
+
+<img @ref="_ball_image" src="/images/ball.png" asp-append-version="true" />
+    <BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
+
+@code {
+    private Canvas2DContext _context;
+
+    private const int _gameHeight = 600;
+    private const int _gameWidth = 800;
+
+    protected BECanvasComponent _canvasReference;
+    protected ElementReference _ball_image;
+
+    private Ball _ball;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this._context = await this._canvasReference.CreateCanvas2DAsync();
+
+        await InitalizeGameObjects();
+    }
+
+    private async Task InitalizeGameObjects()
+    {
+        this._ball = new Ball(_gameWidth, _gameHeight, this._ball_image);
+        await this._ball.Draw(_context);
+    }
+}
