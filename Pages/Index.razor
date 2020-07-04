@@ -3,9 +3,9 @@
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
 @using BreakOutGame.BreakoutGameObjects;
+@inject IJSRuntime JSRuntime;
 
-<img @ref="_ball_image" src="/images/ball.png" asp-append-version="true" />
-    <BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
+<BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
 
 @code {
     private Canvas2DContext _context;
@@ -14,20 +14,47 @@
     private const int _gameWidth = 800;
 
     protected BECanvasComponent _canvasReference;
-    protected ElementReference _ball_image;
 
     private Ball _ball;
+    private Paddle _paddle;
+
+    delegate Task RunGameLoop();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         this._context = await this._canvasReference.CreateCanvas2DAsync();
 
         await InitalizeGameObjects();
+        await JSRuntime.InvokeVoidAsync("requestAnimationFrame", "GameLoop");
+    }
+
+    [JSInvokable]
+    public async Task GameLoop()
+    {
+        await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
+
+        await UpdateGameObjects();
+        await DrawGameObject();
+    }
+
+    private async Task UpdateGameObjects()
+    {
+        this._ball.Update();
+        //this._paddle.Update();
+    }
+
+    private async Task DrawGameObject()
+    {
+        await this._ball.Draw(_context);
+        await this._paddle.Draw(_context);
     }
 
     private async Task InitalizeGameObjects()
     {
-        this._ball = new Ball(_gameWidth, _gameHeight, this._ball_image);
+        this._ball = new Ball(_gameWidth, _gameHeight);
         await this._ball.Draw(_context);
+
+        this._paddle = new Paddle(_gameWidth, _gameHeight);
+        await this._paddle.Draw(_context);
     }
 }
