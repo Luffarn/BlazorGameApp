@@ -2,13 +2,15 @@
 @using Blazor.Extensions;
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
-@using BreakOutGame.BreakoutGameObjects;
+@using BreakOutGame.BreakoutGame;
+@using BreakoutGame.Helpers;
 @inject IJSRuntime JSRuntime;
 
 <BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
 
 @code {
     private Canvas2DContext _context;
+    private InputHandler _inputHandler;
 
     private const int _gameHeight = 600;
     private const int _gameWidth = 800;
@@ -20,27 +22,39 @@
 
     delegate Task RunGameLoop();
 
+    protected override Task OnInitializedAsync()
+    {
+
+        return base.OnInitializedAsync();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         this._context = await this._canvasReference.CreateCanvas2DAsync();
 
-        await InitalizeGameObjects();
-        await JSRuntime.InvokeVoidAsync("requestAnimationFrame", "GameLoop");
+        InitalizeGameObjects();
+        await DrawGameObject();
+
+        _inputHandler = new InputHandler(_paddle);
+        if (firstRender)
+        {
+            var jsInterop = new JsInteropHelper(JSRuntime, _inputHandler);
+            await jsInterop.CallInitPaddleActions();
+        }
     }
 
-    [JSInvokable]
     public async Task GameLoop()
     {
         await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
 
-        await UpdateGameObjects();
+        UpdateGameObjects();
         await DrawGameObject();
     }
 
-    private async Task UpdateGameObjects()
+    private void UpdateGameObjects()
     {
         this._ball.Update();
-        //this._paddle.Update();
+        this._paddle.Update();
     }
 
     private async Task DrawGameObject()
@@ -49,12 +63,9 @@
         await this._paddle.Draw(_context);
     }
 
-    private async Task InitalizeGameObjects()
+    private void InitalizeGameObjects()
     {
         this._ball = new Ball(_gameWidth, _gameHeight);
-        await this._ball.Draw(_context);
-
         this._paddle = new Paddle(_gameWidth, _gameHeight);
-        await this._paddle.Draw(_context);
     }
 }

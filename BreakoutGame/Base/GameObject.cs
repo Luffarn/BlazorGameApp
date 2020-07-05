@@ -1,12 +1,9 @@
-﻿using Blazor.Extensions.Canvas.Canvas2D;
-using BreakOutGame.BreakoutGameObjects.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BreakOutGame.BreakoutGameObjects.Base
+﻿namespace BreakOutGame.BreakoutGame.Base
 {
+    using Blazor.Extensions.Canvas.Canvas2D;
+    using BreakOutGame.BreakoutGame.Common;
+    using System.Threading.Tasks;
+
     public abstract class GameObject
     {
         protected int GameWidth;
