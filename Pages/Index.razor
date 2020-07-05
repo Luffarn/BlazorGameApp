@@ -2,13 +2,15 @@
 @using Blazor.Extensions;
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
-@using BreakOutGame.BreakoutGameObjects;
+@using BreakOutGame.BreakoutGame;
+@using BreakoutGame.Helpers;
 @inject IJSRuntime JSRuntime;
 
 <BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
 
 @code {
     private Canvas2DContext _context;
+    private InputHandler _inputHandler;
 
     private const int _gameHeight = 600;
     private const int _gameWidth = 800;
@@ -20,13 +22,24 @@
 
     private Task engine;
 
+    protected override Task OnInitializedAsync()
+    {
+
+        return base.OnInitializedAsync();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         this._context = await this._canvasReference.CreateCanvas2DAsync();
 
-        await InitalizeGameObjects();
+        InitalizeGameObjects();
+        await DrawGameObject();
+
+        _inputHandler = new InputHandler(_paddle);
         if (firstRender)
         {
+            var jsInterop = new JsInteropHelper(JSRuntime, _inputHandler);
+            await jsInterop.CallInitPaddleActions();
             engine = GameLoop();
         }
     }
@@ -47,22 +60,19 @@
 
     private void UpdateGameObjects()
     {
+        this._paddle.Update();
         this._ball.Update();
-        //this._paddle.Update();
     }
 
     private async Task DrawGameObject()
     {
-        await this._ball.Draw(_context);
         await this._paddle.Draw(_context);
+        await this._ball.Draw(_context);
     }
 
-    private async Task InitalizeGameObjects()
+    private void InitalizeGameObjects()
     {
         this._paddle = new Paddle(_gameWidth, _gameHeight);
-        await this._paddle.Draw(_context);
-
-        this._ball = new Ball(_gameWidth, _gameHeight, this._paddle);
-        await this._ball.Draw(_context);
+        this._ball = new Ball(_gameWidth, _gameHeight, _paddle);
     }
 }
