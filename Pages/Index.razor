@@ -60,14 +60,14 @@
 
     private void UpdateGameObjects()
     {
-        this._ball.Update();
         this._paddle.Update();
+        this._ball.Update();
     }
 
     private async Task DrawGameObject()
     {
-        await this._ball.Draw(_context);
         await this._paddle.Draw(_context);
+        await this._ball.Draw(_context);
     }
 
     private void InitalizeGameObjects()

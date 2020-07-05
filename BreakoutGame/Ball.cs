@@ -19,7 +19,7 @@
 
             this._size = 16;
             Position = new Position(this.GameWidth / 2 - _size / 2, this.GameHeight - _size * 3);
-            Speed = new Speed(0, 10);
+            Speed = new Speed(5, 5);
             this._paddle = paddle;
         }
 
@@ -33,7 +33,6 @@
 
         public override void Update()
         {
-            this.Position.X += this.Speed.XSpeed;
             if (CollideWithRoof())
             {
                 this.Speed.YSpeed = -this.Speed.YSpeed;
@@ -57,6 +56,8 @@
             => (this.Position.X + this._size / 2 > this.GameWidth) || (this.Position.X + this._size / 2 < 0);
 
         private bool CollideWithPaddle()
-            => (this.Position.Y + this._size / 2 >= _paddle.Position.Y - _paddle.Height / 2);
+            => (this.Position.Y + this._size / 2 >= _paddle.Position.Y &&
+                this.Position.X <= _paddle.Position.X + _paddle.Width &&
+                this.Position.X >= _paddle.Position.X);
     }
 }

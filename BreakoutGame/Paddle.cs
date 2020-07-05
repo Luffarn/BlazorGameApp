@@ -3,13 +3,13 @@
     using Blazor.Extensions.Canvas.Canvas2D;
     using BreakOutGame.BreakoutGame.Base;
     using BreakOutGame.BreakoutGame.Common;
-    using System;
     using System.Threading.Tasks;
 
     public class Paddle : GameObject
     {
-        public int Height { get; private set; } = 15;
-        public int Width { get; private set; } = 50;
+        private const int SPEED = 7;
+        public int Height { get; private set; } = 20;
+        public int Width { get; private set; } = 100;
         public Paddle(int gameWidth, int gameHeight)
         {
             GameWidth = gameWidth;
@@ -21,34 +21,26 @@
         public override async Task Draw(Canvas2DContext context)
         {
             await context.SetFillStyleAsync("green");
-            await context.FillRectAsync(GameWidth / 2 - Width, GameHeight - Height - 10, Width, Height);
+            await context.FillRectAsync(this.Position.X, this.Position.Y, Width, Height);
         }
         public override void Update()
         {
-            Position.X = Speed.XSpeed;
+            Position.X += Speed.XSpeed;
+            
+            if (this.Position.X < 0)
+                this.Position.X = 0;
+            if (this.Position.X + this.Width > this.GameWidth)
+                this.Position.X = this.GameWidth - this.Width;
+
         }
         public void MoveRight()
         {
-            if (this.Position.X + this.Width / 2 >= this.GameWidth)
-            {
-                this.Speed.XSpeed = 0;
-            }
-            else
-            {
-                this.Speed.XSpeed = 10;
-            }
+            this.Speed.XSpeed = SPEED;
         }
 
         public void MoveLeft()
         {
-            if (this.Position.X + this.Width / 2 <= 0)
-            {
-                this.Speed.XSpeed = 0;
-            }
-            else
-            {
-                this.Speed.XSpeed = -10;
-            }
+            this.Speed.XSpeed = -SPEED;
         }
     }
 }
