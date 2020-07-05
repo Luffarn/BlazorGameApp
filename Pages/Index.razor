@@ -20,7 +20,7 @@
     private Ball _ball;
     private Paddle _paddle;
 
-    delegate Task RunGameLoop();
+    private Task engine;
 
     protected override Task OnInitializedAsync()
     {
@@ -40,15 +40,22 @@
         {
             var jsInterop = new JsInteropHelper(JSRuntime, _inputHandler);
             await jsInterop.CallInitPaddleActions();
+            engine = GameLoop();
         }
     }
 
     public async Task GameLoop()
     {
-        await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
+        var i = 0;
+        while (i < 1000000)
+        {
+            await Task.Delay(1);
+            await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
 
-        UpdateGameObjects();
-        await DrawGameObject();
+            UpdateGameObjects();
+            await DrawGameObject();
+            i++;
+        }
     }
 
     private void UpdateGameObjects()
@@ -65,7 +72,7 @@
 
     private void InitalizeGameObjects()
     {
-        this._ball = new Ball(_gameWidth, _gameHeight);
         this._paddle = new Paddle(_gameWidth, _gameHeight);
+        this._ball = new Ball(_gameWidth, _gameHeight, _paddle);
     }
 }
