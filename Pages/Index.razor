@@ -18,26 +18,34 @@
     private Ball _ball;
     private Paddle _paddle;
 
-    delegate Task RunGameLoop();
+    private Task engine;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         this._context = await this._canvasReference.CreateCanvas2DAsync();
 
         await InitalizeGameObjects();
-        await JSRuntime.InvokeVoidAsync("requestAnimationFrame", "GameLoop");
+        if (firstRender)
+        {
+            engine = GameLoop();
+        }
     }
 
-    [JSInvokable]
     public async Task GameLoop()
     {
-        await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
+        var i = 0;
+        while (i < 1000000)
+        {
+            await Task.Delay(1);
+            await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
 
-        await UpdateGameObjects();
-        await DrawGameObject();
+            UpdateGameObjects();
+            await DrawGameObject();
+            i++;
+        }
     }
 
-    private async Task UpdateGameObjects()
+    private void UpdateGameObjects()
     {
         this._ball.Update();
         //this._paddle.Update();
@@ -51,10 +59,10 @@
 
     private async Task InitalizeGameObjects()
     {
-        this._ball = new Ball(_gameWidth, _gameHeight);
-        await this._ball.Draw(_context);
-
         this._paddle = new Paddle(_gameWidth, _gameHeight);
         await this._paddle.Draw(_context);
+
+        this._ball = new Ball(_gameWidth, _gameHeight, this._paddle);
+        await this._ball.Draw(_context);
     }
 }
