@@ -78,7 +78,8 @@
 
     private void InitalizeGameObjects()
     {
-        this._bricks = Brick.CreateBricks(9, _gameWidth, _gameHeight);
+        var level = BreakoutLevel.GetLevel(2);
+        this._bricks = BrickFactory.CreateBricks(level.BrickLayout, _gameWidth, _gameHeight);
         this._paddle = new Paddle(_gameWidth, _gameHeight);
         this._ball = new Ball(_gameWidth, _gameHeight, _paddle, _bricks);
     }
