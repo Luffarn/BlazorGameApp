@@ -1,5 +1,6 @@
 ﻿namespace BreakOutGame.BreakoutGame
 {
+    using BreakOutGame.BreakoutGame.GameObjects;
     using Microsoft.JSInterop;
 
     public class InputHandler
