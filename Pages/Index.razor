@@ -2,6 +2,7 @@
 @using Blazor.Extensions;
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
+@using BreakOutGame.BreakoutGame.GameObjects;
 @using BreakOutGame.BreakoutGame;
 @using BreakoutGame.Helpers;
 @inject IJSRuntime JSRuntime;
@@ -19,6 +20,7 @@
 
     private Ball _ball;
     private Paddle _paddle;
+    private List<Brick> _bricks;
 
     private Task engine;
 
@@ -66,13 +68,18 @@
 
     private async Task DrawGameObject()
     {
+        foreach (var brick in _bricks)
+        {
+            await brick.Draw(_context);
+        }
         await this._paddle.Draw(_context);
         await this._ball.Draw(_context);
     }
 
     private void InitalizeGameObjects()
     {
+        this._bricks = Brick.CreateBricks(9, _gameWidth, _gameHeight);
         this._paddle = new Paddle(_gameWidth, _gameHeight);
-        this._ball = new Ball(_gameWidth, _gameHeight, _paddle);
+        this._ball = new Ball(_gameWidth, _gameHeight, _paddle, _bricks);
     }
 }
