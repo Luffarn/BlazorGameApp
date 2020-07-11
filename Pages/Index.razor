@@ -11,16 +11,14 @@
 
 @code {
     private Canvas2DContext _context;
-    private InputHandler _inputHandler;
 
     private const int _gameHeight = 600;
     private const int _gameWidth = 800;
+    private BreakoutGameEngine _gameEngine;
 
     protected BECanvasComponent _canvasReference;
 
-    private Ball _ball;
-    private Paddle _paddle;
-    private List<Brick> _bricks;
+    
 
     private Task engine;
 
@@ -32,55 +30,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        this._context = await this._canvasReference.CreateCanvas2DAsync();
-
-        InitalizeGameObjects();
-        await DrawGameObject();
-
-        _inputHandler = new InputHandler(_paddle);
         if (firstRender)
         {
-            var jsInterop = new JsInteropHelper(JSRuntime, _inputHandler);
-            await jsInterop.CallInitPaddleActions();
-            engine = GameLoop();
+            this._context = await this._canvasReference.CreateCanvas2DAsync();
+            this._gameEngine = new BreakoutGameEngine(_context, _gameWidth, _gameHeight);
+            await _gameEngine.Start(JSRuntime);
         }
-    }
-
-    public async Task GameLoop()
-    {
-        var i = 0;
-        while (i < 1000000)
-        {
-            await Task.Delay(1);
-            await _context.ClearRectAsync(0, 0, _gameWidth, _gameHeight);
-
-            UpdateGameObjects();
-            await DrawGameObject();
-            i++;
-        }
-    }
-
-    private void UpdateGameObjects()
-    {
-        this._paddle.Update();
-        this._ball.Update();
-    }
-
-    private async Task DrawGameObject()
-    {
-        foreach (var brick in _bricks)
-        {
-            await brick.Draw(_context);
-        }
-        await this._paddle.Draw(_context);
-        await this._ball.Draw(_context);
-    }
-
-    private void InitalizeGameObjects()
-    {
-        var level = BreakoutLevel.GetLevel(2);
-        this._bricks = BrickFactory.CreateBricks(level.BrickLayout, _gameWidth, _gameHeight);
-        this._paddle = new Paddle(_gameWidth, _gameHeight);
-        this._ball = new Ball(_gameWidth, _gameHeight, _paddle, _bricks);
     }
 }
