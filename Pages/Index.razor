@@ -2,26 +2,17 @@
 @using Blazor.Extensions;
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
-@using BreakOutGame.BreakoutGame.GameObjects;
 @using BreakOutGame.BreakoutGame;
-@using BreakoutGame.Helpers;
 @inject IJSRuntime JSRuntime;
 
-<BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
+    <div>
+        <h1>
+            Hello There!
+        </h1>
+    </div>
 
 @code {
-    private Canvas2DContext _context;
-
-    private const int _gameHeight = 600;
-    private const int _gameWidth = 800;
-    private BreakoutGameEngine _gameEngine;
-
-    protected BECanvasComponent _canvasReference;
-
     
-
-    private Task engine;
-
     protected override Task OnInitializedAsync()
     {
 
@@ -30,11 +21,6 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
-            this._context = await this._canvasReference.CreateCanvas2DAsync();
-            this._gameEngine = new BreakoutGameEngine(_context, _gameWidth, _gameHeight);
-            await _gameEngine.Start(JSRuntime);
-        }
+        
     }
 }
