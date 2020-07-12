@@ -1,7 +1,7 @@
-﻿using BreakOutGame.BreakoutGame.Common;
-
-namespace BreakOutGame.BreakoutGame.Base
+﻿namespace PlayBlazem.BreakoutGame.Base
 {
+    using PlayBlazem.BreakoutGame.Common;
+
     public abstract class MovableGameObject : GameObject
     {
         public abstract void Update();

@@ -1,12 +1,10 @@
-﻿namespace BreakOutGame.BreakoutGame
+﻿namespace PlayBlazem.BreakoutGame
 {
     using Blazor.Extensions.Canvas.Canvas2D;
-    using BreakOutGame.BreakoutGame.GameObjects;
-    using BreakOutGame.BreakoutGame.Helpers;
     using Microsoft.JSInterop;
-    using System;
+    using PlayBlazem.BreakoutGame.GameObjects;
+    using PlayBlazem.BreakoutGame.Helpers;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class BreakoutGameEngine
@@ -22,9 +20,9 @@
 
         public BreakoutGameEngine(Canvas2DContext context, int gameWidth, int gameHeight)
         {
-            this._context = context;
-            this._gameWidth = gameWidth;
-            this._gameHeight = gameHeight;
+            _context = context;
+            _gameWidth = gameWidth;
+            _gameHeight = gameHeight;
         }
 
         public async Task Start(IJSRuntime _jsRuntime)
@@ -42,9 +40,9 @@
         private void InitalizeGameObjects()
         {
             var level = BreakoutLevel.GetLevel(2);
-            this._bricks = BrickFactory.CreateBricks(level.BrickLayout, _gameWidth, _gameHeight);
-            this._paddle = new Paddle(_gameWidth, _gameHeight);
-            this._ball = new Ball(_gameWidth, _gameHeight, _paddle, _bricks);
+            _bricks = BrickFactory.CreateBricks(level.BrickLayout, _gameWidth, _gameHeight);
+            _paddle = new Paddle(_gameWidth, _gameHeight);
+            _ball = new Ball(_gameWidth, _gameHeight, _paddle, _bricks);
         }
 
         public async void GameLoop()
@@ -63,8 +61,8 @@
 
         private void UpdateGameObjects()
         {
-            this._paddle.Update();
-            this._ball.Update();
+            _paddle.Update();
+            _ball.Update();
         }
 
         private async Task DrawGameObject()
@@ -73,10 +71,10 @@
             {
                 await brick.Draw(_context);
             }
-            await this._paddle.Draw(_context);
-            await this._ball.Draw(_context);
+            await _paddle.Draw(_context);
+            await _ball.Draw(_context);
         }
 
-        
+
     }
 }

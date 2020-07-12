@@ -1,6 +1,6 @@
-﻿namespace BreakOutGame.BreakoutGame
+﻿namespace PlayBlazem.BreakoutGame
 {
-    using BreakOutGame.BreakoutGame.GameObjects;
+    using PlayBlazem.BreakoutGame.GameObjects;
     using System.Collections.Generic;
 
     public class BrickFactory
@@ -14,7 +14,7 @@
                 {
                     if (brickLayout[i][j] == 1)
                     {
-                        int xPos = (j * (brickLayout.Length + 77)) + 5;
+                        int xPos = j * (brickLayout.Length + 77) + 5;
                         int yPos = i * (brickLayout[i].Length + 30) + 5;
                         bricks.Add(new Brick(xPos, yPos));
                     }

@@ -1,4 +1,4 @@
-﻿namespace BreakOutGame.BreakoutGame.Common
+﻿namespace PlayBlazem.BreakoutGame.Common
 {
     public class Speed
     {

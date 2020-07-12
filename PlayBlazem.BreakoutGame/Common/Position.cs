@@ -1,4 +1,4 @@
-﻿namespace BreakOutGame.BreakoutGame.Common
+﻿namespace PlayBlazem.BreakoutGame.Common
 {
     public class Position
     {
@@ -7,8 +7,8 @@
 
         public Position(int x, int y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
     }
 }
