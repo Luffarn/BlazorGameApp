@@ -1,8 +1,8 @@
-﻿namespace BreakOutGame.BreakoutGame.GameObjects
+﻿namespace PlayBlazem.BreakoutGame.GameObjects
 {
     using Blazor.Extensions.Canvas.Canvas2D;
-    using BreakOutGame.BreakoutGame.Base;
-    using BreakOutGame.BreakoutGame.Common;
+    using PlayBlazem.BreakoutGame.Base;
+    using PlayBlazem.BreakoutGame.Common;
     using System.Threading.Tasks;
 
     public class Paddle : MovableGameObject

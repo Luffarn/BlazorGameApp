@@ -1,7 +1,7 @@
-﻿namespace BreakOutGame.BreakoutGame.Base
+﻿namespace PlayBlazem.BreakoutGame.Base
 {
     using Blazor.Extensions.Canvas.Canvas2D;
-    using BreakOutGame.BreakoutGame.Common;
+    using PlayBlazem.BreakoutGame.Common;
     using System.Threading.Tasks;
 
     public abstract class GameObject

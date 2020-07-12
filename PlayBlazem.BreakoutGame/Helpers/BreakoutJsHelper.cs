@@ -1,6 +1,7 @@
-﻿namespace BreakOutGame.BreakoutGame.Helpers
+﻿namespace PlayBlazem.BreakoutGame.Helpers
 {
     using Microsoft.JSInterop;
+    using PlayBlazem.BreakoutGame;
 
     public class BreakoutJsHelper
     {
@@ -8,10 +9,10 @@
 
         public BreakoutJsHelper(InputHandler inputHandler)
         {
-            this._inputHandler = inputHandler;
+            _inputHandler = inputHandler;
         }
 
-        [JSInvokableAttribute("OnKeyPress")]
+        [JSInvokable("OnKeyPress")]
         public void OnKeyPress(int keyCode)
         {
             _inputHandler.HandleKeyPress(keyCode);

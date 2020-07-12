@@ -2,7 +2,7 @@
 @using Blazor.Extensions;
 @using Blazor.Extensions.Canvas
 @using Blazor.Extensions.Canvas.Canvas2D;
-@using BreakOutGame.BreakoutGame;
+@using PlayBlazem.BreakoutGame;
 @inject IJSRuntime JSRuntime;
 
 <BECanvas Width="_gameWidth" Height="_gameHeight" @ref="_canvasReference"></BECanvas>
@@ -15,10 +15,6 @@
     private BreakoutGameEngine _gameEngine;
 
     protected BECanvasComponent _canvasReference;
-
-    
-
-    private Task engine;
 
     protected override Task OnInitializedAsync()
     {

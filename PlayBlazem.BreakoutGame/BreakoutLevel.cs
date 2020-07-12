@@ -1,11 +1,5 @@
-﻿namespace BreakOutGame.BreakoutGame
+﻿namespace PlayBlazem.BreakoutGame
 {
-    using BreakOutGame.BreakoutGame.GameObjects;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public class BreakoutLevel
     {
         public int Level { get; private set; }

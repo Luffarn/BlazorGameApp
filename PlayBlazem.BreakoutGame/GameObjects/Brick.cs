@@ -1,8 +1,7 @@
-﻿namespace BreakOutGame.BreakoutGame.GameObjects
+﻿namespace PlayBlazem.BreakoutGame.GameObjects
 {
     using Blazor.Extensions.Canvas.Canvas2D;
-    using BreakOutGame.BreakoutGame.Base;
-    using BreakOutGame.BreakoutGame.Common;
+    using PlayBlazem.BreakoutGame.Base;
     using System.Threading.Tasks;
 
     public class Brick : GameObject
@@ -12,14 +11,14 @@
 
         public Brick()
         {
-            this.Width = 77;
-            this.Height = 30;
+            Width = 77;
+            Height = 30;
         }
 
         public Brick(int xPos, int yPos) : this()
         {
-            this.Position.X = xPos;
-            this.Position.Y = yPos;
+            Position.X = xPos;
+            Position.Y = yPos;
         }
 
         public override async Task Draw(Canvas2DContext context)

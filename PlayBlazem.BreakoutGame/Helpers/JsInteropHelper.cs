@@ -1,6 +1,7 @@
-﻿namespace BreakOutGame.BreakoutGame.Helpers
+﻿namespace PlayBlazem.BreakoutGame.Helpers
 {
     using Microsoft.JSInterop;
+    using PlayBlazem.BreakoutGame;
     using System;
     using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@
         public JsInteropHelper(IJSRuntime jsRuntime, InputHandler inputHandler)
         {
             this.jsRuntime = jsRuntime;
-            this._inputHandler = inputHandler;
+            _inputHandler = inputHandler;
         }
 
         public async Task CallInitPaddleActions()

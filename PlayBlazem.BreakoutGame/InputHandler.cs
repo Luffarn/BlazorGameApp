@@ -1,7 +1,7 @@
-﻿namespace BreakOutGame.BreakoutGame
+﻿namespace PlayBlazem.BreakoutGame
 {
-    using BreakOutGame.BreakoutGame.GameObjects;
     using Microsoft.JSInterop;
+    using PlayBlazem.BreakoutGame.GameObjects;
 
     public class InputHandler
     {
@@ -9,7 +9,7 @@
 
         public InputHandler(Paddle paddle)
         {
-            this._paddle = paddle;
+            _paddle = paddle;
         }
 
         [JSInvokable]

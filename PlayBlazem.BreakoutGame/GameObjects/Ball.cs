@@ -1,11 +1,10 @@
-﻿namespace BreakOutGame.BreakoutGame.GameObjects
+﻿namespace PlayBlazem.BreakoutGame.GameObjects
 {
     using Blazor.Extensions.Canvas.Canvas2D;
-    using BreakOutGame.BreakoutGame.Base;
-    using BreakOutGame.BreakoutGame.Common;
+    using PlayBlazem.BreakoutGame.Base;
+    using PlayBlazem.BreakoutGame.Common;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class Ball : MovableGameObject
@@ -23,7 +22,7 @@
             Position = new Position(this.GameWidth / 2 - _size / 2, this.GameHeight - _size * 3);
             Speed = new Speed(5, 5);
             _paddle = paddle;
-            this._bricks = bricks;
+            _bricks = bricks;
         }
 
         public override async Task Draw(Canvas2DContext context)
@@ -69,9 +68,9 @@
 
         private bool CollideWithBrick()
         {
-            var topOfBall = this.Position.Y - this._size;
-            var rightSideOfBall = this.Position.X + _size / 2;
-            var leftSideOfBall = this.Position.X - _size / 2;
+            var topOfBall = Position.Y - _size;
+            var rightSideOfBall = Position.X + _size / 2;
+            var leftSideOfBall = Position.X - _size / 2;
 
             Brick hittedBrick = null;
             foreach (var brick in _bricks)
@@ -82,7 +81,7 @@
 
                 if (topOfBall <= bottomOfBrick &&
                    leftSideOfBall >= leftSideOfBrick &&
-                   rightSideOfBall + this._size <= rightSideOfBrick)
+                   rightSideOfBall + _size <= rightSideOfBrick)
                 {
                     hittedBrick = brick;
                 }
