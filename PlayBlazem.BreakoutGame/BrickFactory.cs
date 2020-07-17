@@ -5,7 +5,7 @@
 
     public class BrickFactory
     {
-        public static List<Brick> CreateBricks(int[][] brickLayout, int gameWidth, int gameHeight)
+        public static List<Brick> CreateBricks(int[][] brickLayout, Ball ball, int gameWidth, int gameHeight)
         {
             var bricks = new List<Brick>();
             for (int i = 0; i < brickLayout.Length; i++)
@@ -16,7 +16,7 @@
                     {
                         int xPos = j * (brickLayout.Length + 77) + 5;
                         int yPos = i * (brickLayout[i].Length + 30) + 5;
-                        bricks.Add(new Brick(xPos, yPos));
+                        bricks.Add(new Brick(xPos, yPos, ball));
                     }
                 }
             }
