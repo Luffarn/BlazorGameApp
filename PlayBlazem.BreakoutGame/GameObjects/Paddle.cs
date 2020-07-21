@@ -5,7 +5,7 @@
     using PlayBlazem.BreakoutGame.Common;
     using System.Threading.Tasks;
 
-    public class Paddle : MovableGameObject
+    public class Paddle : MovableGameObject, IRectangularCollidableObject
     {
         private const int SPEED = 7;
         public int Height { get; private set; } = 20;

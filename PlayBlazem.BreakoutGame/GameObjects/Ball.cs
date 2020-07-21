@@ -3,6 +3,7 @@
     using Blazor.Extensions.Canvas.Canvas2D;
     using PlayBlazem.BreakoutGame.Base;
     using PlayBlazem.BreakoutGame.Common;
+    using PlayBlazem.BreakoutGame.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -41,7 +42,7 @@
             {
                 Speed.XSpeed = -Speed.XSpeed;
             }
-            else if (CollideWithPaddle())
+            else if (CollisionDetector.CollideWithGameObject(this, this._paddle))
             {
                 Speed.YSpeed = -Speed.YSpeed;
             }
@@ -59,10 +60,5 @@
 
         private bool CollideWithWalls()
             => Position.X + Size / 2 > GameWidth || Position.X + Size / 2 < 0;
-
-        private bool CollideWithPaddle()
-            => Position.Y + Size / 2 >= _paddle.Position.Y &&
-                Position.X <= _paddle.Position.X + _paddle.Width &&
-                Position.X >= _paddle.Position.X;
     }
 }
