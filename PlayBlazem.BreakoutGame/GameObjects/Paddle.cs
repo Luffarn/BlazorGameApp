@@ -23,7 +23,7 @@
             await context.SetFillStyleAsync("green");
             await context.FillRectAsync(Position.X, Position.Y, Width, Height);
         }
-        public override void Update()
+        public override void Update(GameState gameState)
         {
             Position.X += Speed.XSpeed;
 

@@ -12,11 +12,10 @@
         private readonly Canvas2DContext _context;
         private readonly int _gameWidth;
         private readonly int _gameHeight;
-
+        private GameState _gameState;
         private InputHandler _inputHandler;
         private Ball _ball;
         private Paddle _paddle;
-        private BreakoutLevel _currentLevel;
 
         public BreakoutGameEngine(Canvas2DContext context, int gameWidth, int gameHeight)
         {
@@ -41,7 +40,7 @@
         {
             _paddle = new Paddle(_gameWidth, _gameHeight);
             _ball = new Ball(_gameWidth, _gameHeight, _paddle);
-            _currentLevel = BreakoutLevel.Create(1, _ball, _gameWidth, _gameHeight);
+            _gameState = new GameState(_ball, _gameWidth, _gameHeight);
         }
 
         public async void GameLoop()
@@ -55,14 +54,20 @@
                 UpdateGameObjects();
                 await DrawGameObject();
                 i++;
+
+                if (_gameState.Lives <= 0)
+                {
+                    i = 1000000;
+                    await GameOver();
+                }
             }
         }
 
         private void UpdateGameObjects()
         {
-            _paddle.Update();
-            _ball.Update();
-            foreach (var brick in _currentLevel.Bricks)
+            _paddle.Update(_gameState);
+            _ball.Update(_gameState);
+            foreach (var brick in _gameState.Bricks)
             {
                 brick.Update();
             }
@@ -70,11 +75,11 @@
 
         private async Task DrawGameObject()
         {
-            if (_currentLevel.Bricks == null || !_currentLevel.Bricks.Any())
+            if (_gameState.Bricks == null || !_gameState.Bricks.Any())
             {
-                GoToNextLevel();
+                _gameState.GoToNextLevel();
             }
-            foreach (var brick in _currentLevel.Bricks)
+            foreach (var brick in _gameState.Bricks)
             {
                 await brick.Draw(_context);
             }
@@ -82,9 +87,11 @@
             await _ball.Draw(_context);
         }
 
-        private void GoToNextLevel()
+        private async Task GameOver()
         {
-            _currentLevel = BreakoutLevel.Create(_currentLevel.Level + 1, _ball, _gameWidth, _gameHeight);
+            await _context.SetFontAsync("48px serif");
+            await _context.SetTextAlignAsync(TextAlign.Center);
+            await _context.FillTextAsync("GAME OVER", _gameWidth / 2, _gameHeight / 2 - 48);
         }
     }
 }
