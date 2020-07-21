@@ -19,8 +19,7 @@
             this.GameHeight = GameHeight;
 
             Size = 16;
-            Position = new Position(this.GameWidth / 2 - Size / 2, this.GameHeight - Size * 3);
-            Speed = new Speed(5, 5);
+            ResetBall();
             _paddle = paddle;
         }
 
@@ -32,9 +31,14 @@
             await context.FillAsync();
         }
 
-        public override void Update()
+        public override void Update(GameState gameState)
         {
-            if (CollideWithRoof())
+            if (CollideWithFloor())
+            {
+                gameState.RemoveLife();
+                ResetBall();
+            }
+            else if (CollideWithRoof())
             {
                 Speed.YSpeed = -Speed.YSpeed;
             }
@@ -50,13 +54,22 @@
             Position.X += Speed.XSpeed;
         }
 
+        private void ResetBall()
+        {
+            this.Position = new Position(this.GameWidth / 2 - Size / 2, this.GameHeight - Size * 3);
+            this.Speed = new Speed(-5, -5);
+        }
+
         public void RedirectSpeed()
         {
             Speed.YSpeed = -Speed.YSpeed;
         }
 
         private bool CollideWithRoof()
-            => Position.Y + Size / 2 > GameHeight || Position.Y + Size / 2 < 0;
+            => Position.Y + Size / 2 < 0;
+
+        private bool CollideWithFloor()
+            => Position.Y + Size / 2 >= GameHeight;
 
         private bool CollideWithWalls()
             => Position.X + Size / 2 > GameWidth || Position.X + Size / 2 < 0;
